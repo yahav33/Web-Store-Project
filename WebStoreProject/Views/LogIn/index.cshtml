@@ -1,0 +1,25 @@
+﻿@model  Login
+
+<form asp-action="Login" method="post" style="margin-top:2cm;">
+    
+    <div>
+        <label asp-for="@Model.Username"></label>
+        <input asp-for="@Model.Username" />
+    </div>
+    <div>
+        <label asp-for="@Model.Password"></label>
+        <input asp-for="@Model.Password" />
+    </div>
+    
+    <input type="submit" value="Login" />
+    <div asp-validation-summary="All"></div>
+    
+</form>
+
+<button> <a asp-action="ForgotPassword" asp-controller="login"> I Forgot My Password</a> </button>
+
+
+
+
+
+

@@ -1,0 +1,58 @@
+﻿@model Register
+
+@inject IReadFromBrowser reader
+
+<form asp-action="Register" method="post" style="margin-top:2cm;">
+
+    <div>
+        <label asp-for="@Model.FirstName"></label>
+        <input asp-for="@Model.FirstName" />
+    </div>
+    <div>
+        <label asp-for="@Model.LastName"></label>
+        <input asp-for="@Model.LastName" />
+    </div>
+    <div>
+        <label asp-for="@Model.Email"></label>
+        <input type="email" asp-for="@Model.Email" />
+    </div>
+    <div>
+        @if (Model!= null)
+        {
+            <label asp-for="@Model.UserName"></label>
+            <input asp-for="@Model.UserName" disabled="disabled"/>
+        }
+        else
+        {
+            <label asp-for="@Model.UserName"></label>
+            <input asp-for="@Model.UserName" />
+        }
+    </div>
+    <div>
+        <label asp-for="@Model.Password"></label>
+        <input asp-for="@Model.Password" />
+    </div>
+    <div>
+        <label>Insert Password Again</label>
+        <input asp-for="@Model.ComfirmPassword" />
+    </div>
+    <div>
+        <label asp-for="@Model.BirthDate"></label>
+        <input type="date" asp-for="@Model.BirthDate" />
+    </div>
+
+
+
+    @if (reader.ReadCookie("User") == null)
+    {
+        <input type="submit" value="Register" />
+    }
+    else
+    {
+
+        <input type="submit" value="Update" />
+    }
+    <div asp-validation-summary="All"></div>
+
+</form>
+

@@ -1,0 +1,18 @@
+﻿body {
+    padding: 20px;
+    text-align: center;
+    color: black;
+    background: #aee0c5;
+}
+
+
+footer {
+    background-color: #F1F1F1;
+    text-align: center;
+    padding: 10px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}

@@ -1,0 +1,47 @@
+﻿@model List<Product>
+@inject WebStoreProject.Services.ICheckTime message
+
+<head>
+    <script src="~/Scripts/search.js"></script>
+</head>
+
+<marquee behavior="scroll" style="font-size:19px;" direction="left">Welcome to our online shopping website</marquee>
+<div>
+
+    
+    
+
+    <form asp-action="Search" asp-controller="Home" method="post" enctype="multipart/form-data">
+        <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Order By
+        </button>
+        <span class="dropdown-menu">
+            <a class="dropdown-item" asp-action="index" asp-controller="Home" asp-route-sortOrder="date"> Order By Date </a>
+            <a asp-action="index" class="dropdown-item" asp-controller="Home" asp-route-sortOrder="name"> Order By Name </a>
+            <a asp-action="index" class="dropdown-item" asp-controller="Home" asp-route-sortOrder="price"> Order By Price </a>
+
+        </span>
+        <input name="searchinput" class="my-0 py-1 red-border" autocomplete="off" required="required" style="width:700px;" type="text" placeholder="Search" aria-label="Search">
+        <input type="submit" class="btn btn-success">
+            @*<a asp-action="Search" asp-controller="Home" asp-route-searchvalue=searchinput.value>
+                Search
+            </a>*@
+
+        </input>
+    </form>
+
+</div>
+
+
+@if (Model.Count == 0)
+{
+    <h3>No Products!</h3>
+}
+else
+{
+@foreach (var pro in Model)
+{
+    @await Html.PartialAsync("_PartialViewPoster", pro)
+}
+
+}

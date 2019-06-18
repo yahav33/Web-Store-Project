@@ -1,0 +1,48 @@
+﻿@model List<Product>
+
+<html>
+<head>
+    <link href="~/vendor-styles/showMyProduct.css" rel="stylesheet" />
+</head>
+<body>
+    <br />
+    @if (Model.Count == 0)
+    {
+        <h1>
+            <b>You didn't publish any product's.</b>
+        </h1>
+    }
+    else
+    {
+
+        <h1>
+            Your Product's:
+        </h1>
+        <h3> Product in Store:</h3>
+        @foreach (var pro in Model)
+        {
+            <div id="pic">
+            @if (pro.Status != StatusState.In_Cart)
+            {
+                @await Html.PartialAsync("_PartialViewPoster", pro)
+            }
+            </div>
+
+        }
+        <h3> Product in Cart:</h3>
+        @foreach (var pro in Model)
+        {
+             <div id="pic">
+            @if (pro.Status == StatusState.In_Cart)
+            {
+                @await Html.PartialAsync("_PartialViewPoster", pro)
+            }
+            </div>
+
+        }
+
+    }
+
+</body>
+</html>
+

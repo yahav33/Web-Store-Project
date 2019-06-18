@@ -1,0 +1,6 @@
+{
+  "ConnectionStrings": {
+    "MyConnection": "Data Source=.;Initial Catalog=WebStore;Integrated Security=True;Pooling=False"
+  },
+  "RefreshDuration": 20
+}

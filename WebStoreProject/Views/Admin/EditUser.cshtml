@@ -1,0 +1,34 @@
+﻿@model User
+<html>
+
+<head>
+    <script src="~/Scripts/UpdateUser.js"></script>
+</head>
+<body>
+<div class="card" style="width: 18rem;display: inline-block;background-color:wheat;">
+
+    <div class="card-body">
+        <h5 class="card-title">First Name : @Model.FirstName</h5>
+        <p class="card-text"> User ID : @Model.UserId</p>
+        <p class="card-text"> Last Name :  @Model.LastName</p>
+        <p class="card-text"> User Name: @Model.UserName</p>
+        <p class="card-text"> Email : @Model.Email</p>
+        <p class="card-text"> BirthDay : @Model.BirthDate</p>
+        @if (Model.Level > 0)
+        {
+            <p class="card-text"><span>Check For Admin: </span><input type="checkbox" id="admincheck" checked="checked" </p>
+        }
+        else
+        {
+            <p class="card-text"><span>Check For Admin: </span><input type="checkbox" id="admincheck" </p>
+        }
+
+       
+        <p><a id="btn" class="btn btn-primary">Update</a></p>
+
+        <div  id="userId" hidden="hidden"> @Model.UserId</div>
+    </div>
+</div>
+</body>
+</html>
+
