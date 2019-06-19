@@ -16,7 +16,7 @@ namespace WebStoreProject.Services
             message.To.Add(new MailboxAddress("Me", email));
             message.Subject = subject;  
             
-            message.Body = new TextPart("plain")
+            message.Body = new TextPart("html")
             {
                 Text = content
             };

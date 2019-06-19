@@ -101,7 +101,7 @@ namespace WebStoreProject.Controllers
                     };
 
                     _irepositoryUser.CreateUser(user);
-                    string emailcontent = String.Format("Hello {0}, welcome to our Shop!!!", user.FirstName);
+                    string emailcontent = String.Format("<h2>Hello {0}, welcome to our Shop!!!</h2> <a href='https://localhost:44347/'>Click here to get the Best Price's!!</a> ", user.FirstName);
                     _send.SendEmail(emailcontent, user.Email, "Welcome To Store on-Line");
                     _logger.WriteLog($"User Register : {register.UserName}", Catgory.User);
                     return RedirectToAction("index", "login");
