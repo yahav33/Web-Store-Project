@@ -1,1 +1,7 @@
 Product 18 was added By :25 - 01:31
+Products that Purchase{"UserID":25,"ProductIDs":[10,1],"InitCartTime":"2019-06-19T03:30:31.9134681+03:00"} - 03:30
+Products that Purchase{"UserID":29,"ProductIDs":[3],"InitCartTime":"2019-06-19T03:32:08.1940319+03:00"} - 03:32
+Products that Purchase{"UserID":29,"ProductIDs":[4],"InitCartTime":"2019-06-19T03:35:18.8969482+03:00"} - 03:35
+Products that Purchase{"UserID":29,"ProductIDs":[14],"InitCartTime":"2019-06-19T03:50:11.4527923+03:00"} - 03:50
+Products that Purchase{"UserID":29,"ProductIDs":[8],"InitCartTime":"2019-06-19T03:54:45.691095+03:00"} - 03:54
+Products that Purchase{"UserID":29,"ProductIDs":[18],"InitCartTime":"2019-06-19T03:57:12.9747779+03:00"} - 03:58

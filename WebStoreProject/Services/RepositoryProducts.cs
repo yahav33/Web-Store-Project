@@ -146,7 +146,7 @@ namespace WebStoreProject.Services
             string message = "";
             foreach (var prod in list)
             {
-                message += $"Product : {prod.Title} with the price of : {(double)prod.Price * 0.9} was purchased{Environment.NewLine}"; 
+                message += $"<h4>Product : {prod.Title} with the price of : {(double)prod.Price * 0.9} was purchased</h4>"; 
             }
             _emailManger.SendEmail(message, thisUser.Email, "Purchased Notification!");
         }
