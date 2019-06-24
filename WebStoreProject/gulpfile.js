@@ -26,10 +26,7 @@ paths.vendorStyles = [
 paths.vendordest = paths.webroot + "/vendor-script/";
 paths.vendorCssDest = paths.webroot + "/vendor-styles/";
 
-
-
 // TaskRuner's
-
 gulp.task("load-vendor", () => {
     return gulp.src(paths.vendor)
         .pipe(concat("vendorvalid.js"))//make all the file's to one file

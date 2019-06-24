@@ -24,21 +24,17 @@ namespace WebStoreProject.Controllers
             _write = write;
           
         }
-        public bool UserLogin()
-        {
-            //can use from services
-            return (_read.ReadSession("User") != null);
-        }
+        
         [HttpPost]
         public IActionResult Search(string searchinput)
         {
-            var v = HttpContext.Request.Form["searchinput"];
+            //var v = HttpContext.Request.Form["searchinput"];
             return View("Index",_repositoryProducts.Search(searchinput));
 
         }
         public IActionResult Index(string sortOrder)     
         {
-            
+
             string user = _read.ReadCookie("User");
             if (user != null)
             {
@@ -58,7 +54,7 @@ namespace WebStoreProject.Controllers
 
                 }
             }
-            
+
             var prods = _repositoryProducts.GetAllProducts();
             switch (sortOrder)
             {
@@ -78,9 +74,16 @@ namespace WebStoreProject.Controllers
             return View(prods);
         }
 
+
         public IActionResult About()
         {
             return View();
+        }
+
+        public bool UserLogin()
+        {
+            //can use from services
+            return (_read.ReadSession("User") != null);
         }
 
 

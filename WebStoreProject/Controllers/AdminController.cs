@@ -12,8 +12,8 @@ namespace WebStoreProject.Controllers
     {
         IRepositoryUser _repositoryUser;
         ICheckUserExist _check;
-        private ILogger _logger;
-        private IReadFromBrowser _read;
+        ILogger _logger;
+        IReadFromBrowser _read;
 
         public AdminController(IRepositoryUser repositoryUser,
             ICheckUserExist exist, ILogger logger, IReadFromBrowser read)

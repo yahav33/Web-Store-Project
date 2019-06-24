@@ -119,8 +119,7 @@ namespace WebStoreProject.Services
         }
 
         public bool Login(string Password)
-        {
-           
+        {     
             var val = _context.Users.FirstOrDefault(x => x.Password.ToLower() == EncryptManager.EncryptPass(Password.ToLower()));
             return val != null;
         }
