@@ -15,7 +15,7 @@ namespace TestProject
     public class HomeControllerTest
     {
         [TestMethod]
-        public void IndexModelShouldContainAllProducts()
+        public void IndexModelShouldContainOnlyAvailableProducts()
         {
             // Arrange
             IRepositoryProducts fakeProductRepository = new FakeProductRepository();
@@ -50,8 +50,7 @@ namespace TestProject
             products.Count.Should().Be(2);
         }
 
-
-
+       
 
     }
 }

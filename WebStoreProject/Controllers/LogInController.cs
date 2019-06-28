@@ -17,7 +17,7 @@ namespace WebStoreProject.Controllers
         private IWriteToBrowser _write;
         private IEmptyCart _emptyCart;
         private IEmailManger _sendEmail;
-       private ILogger _logger;
+        private ILogger _logger;
 
         public LoginController(IEmptyCart emptyCart,IRepositoryUser irepositoryUser, 
             IReadFromBrowser read, IWriteToBrowser write, IEmailManger email,ILogger logger)
@@ -54,12 +54,12 @@ namespace WebStoreProject.Controllers
                 _write.WriteToSession("User", userNote);
                 _write.WriteCookies("User", userNote);
                _logger.WriteLog($"user log in : {login.Username}", Catgory.User);
-                return RedirectToAction("Index", "Home");
+                return View("Index", "Home");
             }
             else
             {
                 //Player Not Login
-                return RedirectToAction("index", "Login");
+                return View("index", "Login");
             }
         }
 

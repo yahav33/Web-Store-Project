@@ -15,7 +15,7 @@ namespace TestProject.FakeRepositories
 
         public string ReadSession(string name)
         {
-            return JsonConvert.SerializeObject(user);
+            return null /*JsonConvert.SerializeObject(user)*/;
         }
 
         string IReadFromBrowser.ReadCookie(string name)

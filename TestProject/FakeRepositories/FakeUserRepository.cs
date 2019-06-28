@@ -8,9 +8,19 @@ namespace TestProject.FakeRepositories
 {
     class FakeUserRepository : IRepositoryUser
     {
+        public static List<User> Users = new List<User>()
+        {
+            new User{ UserId=1,UserName="first", Email="yt@yah.com", FirstName="tim", LastName="last", Level=1, Password="12345", BirthDate=DateTime.Now},
+            new User{ UserId=1,UserName="second", Email="yt@yah.com", FirstName="timor", LastName="gio", Level=0, Password="123456", BirthDate=DateTime.Now},
+            new User{ UserId=1,UserName="third", Email="yt@yah.com", FirstName="eli", LastName="hoe", Level=0, Password="123457", BirthDate=DateTime.Now},
+            new User{ UserId=1,UserName="fifth", Email="yt@yah.com", FirstName="yafit", LastName="frtiy", Level=1, Password="123454", BirthDate=DateTime.Now},
+            new User{ UserId=1,UserName="five", Email="yt@yah.com", FirstName="green", LastName="ertou", Level=0, Password="123452", BirthDate=DateTime.Now}
+
+        };
+
         public void CreateUser(User user)
         {
-            throw new NotImplementedException();
+            Users.Add(user);
         }
 
         public bool EmailCheck(string email)
@@ -25,7 +35,7 @@ namespace TestProject.FakeRepositories
 
         public User GetUserByUserName(string userName)
         {
-            throw new NotImplementedException();
+            return Users.Find(n => n.UserName == userName);
         }
 
         public User GetUserFromCookie()
@@ -50,17 +60,24 @@ namespace TestProject.FakeRepositories
 
         public bool Login(Login login)
         {
-            throw new NotImplementedException();
+            if (login.Username.Contains('T')) return true;
+            return false;
         }
 
         public bool Login(string username)
         {
-            throw new NotImplementedException();
+            if(username == "UserIsLogin")
+            {
+                return true;
+            }
+            return false;
         }
 
         public bool Register(string userName)
         {
-            throw new NotImplementedException();
+            var rez = Users.Find(u => u.UserName == userName);
+            if (rez == null) return true;
+            return false;
         }
 
         public void SaveUsers()

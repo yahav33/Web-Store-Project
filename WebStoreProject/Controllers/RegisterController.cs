@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -19,7 +18,7 @@ namespace WebStoreProject.Controllers
         IReadFromBrowser _read;
         IWriteToBrowser _write;
         IEmailManger _send;
-        private ILogger _logger;
+        ILogger _logger;
 
         public RegisterController(IRepositoryUser irepositoryUser,ICheckTime checktime
             , IReadFromBrowser read, IWriteToBrowser write,
@@ -76,11 +75,10 @@ namespace WebStoreProject.Controllers
             string UserPP = _read.ReadSession("User");
             if (UserPP != null)
             {
-
                 _irepositoryUser.UpdateUser(UserPP, register);
                 _irepositoryUser.SaveUsers();
                 _logger.WriteLog($"User Updated : {register.UserName}",Catgory.User);
-                return RedirectToAction("index", "Home");
+                return View("index", "Home");
             }
 
             else
@@ -104,11 +102,11 @@ namespace WebStoreProject.Controllers
                     string emailcontent = String.Format("<h2>Hello {0}, welcome to our Shop!!!</h2> <a href='https://localhost:44347/'>Click here to get the Best Price's!!</a> ", user.FirstName);
                     _send.SendEmail(emailcontent, user.Email, "Welcome To Store on-Line");
                     _logger.WriteLog($"User Register : {register.UserName}", Catgory.User);
-                    return RedirectToAction("index", "login");
+                    return View("index", "login");
                 }
                 else
                 {
-                    return RedirectToAction("index", "Register");
+                    return View("index", "Register");
                 }
 
             }
