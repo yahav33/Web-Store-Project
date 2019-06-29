@@ -29,17 +29,7 @@ namespace WebStoreProject.Controllers
             _check = checkUser;
             _logger = logger;
         }
-        
-        
-        [HttpDelete]
-        public IActionResult Delete(int id)
-        {
-            if (_check.CheckUserLogin() == false) return RedirectToAction("Index", "Login");
-            _repositoryProducts.RemoveProduct(id);
-            _logger.WriteLog($"Product: {id}", Catgory.Product);
-           
-            return View();
-        }
+
         public IActionResult Index()
         {
             string User = _read.ReadSession("User");
@@ -49,6 +39,17 @@ namespace WebStoreProject.Controllers
             }
             return RedirectToAction("Index", "Login");
         }
+
+        [HttpDelete]
+        public IActionResult Delete(int id)
+        {
+            if (_check.CheckUserLogin() == false) return RedirectToAction("Index", "Login");
+            _repositoryProducts.RemoveProduct(id);
+            _logger.WriteLog($"Product: {id}", Catgory.Product);
+           
+            return View();
+        }
+       
         public IActionResult Details(int prodId)
         {
             var prod = _repositoryProducts.GetProduct(prodId);

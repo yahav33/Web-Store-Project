@@ -18,8 +18,8 @@ namespace WebStoreProject.Controllers
         IRepositoryProducts _repositoryProducts;
         IReadFromBrowser _read;
         IWriteToBrowser _write;
-        private ICheckUserExist _check;
-        private ILogger _logger;
+        ICheckUserExist _check;
+        ILogger _logger;
 
         public ShoppingCartController(ICartManager cartManager,
             IRepositoryProducts repositoryProducts, IReadFromBrowser read,

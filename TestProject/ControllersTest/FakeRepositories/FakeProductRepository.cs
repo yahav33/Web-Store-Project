@@ -13,7 +13,7 @@ namespace TestProject.FakeRepositories
         {
             new Product{ ProductId=1, UserId=1, Price=23, Title="NewOne"},
              new Product{ ProductId=2, UserId=2, Price=56, Title="NewTwo"},
-              new Product{ ProductId=3, UserId=3, Price=89, Title="NewThird"},
+              new Product{ ProductId=3, UserId=1, Price=89, Title="NewThird"},
                new Product{ ProductId=4, UserId=6, Price=90, Title="NewForth"}
 
         };
