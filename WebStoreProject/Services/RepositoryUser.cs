@@ -12,7 +12,7 @@ namespace WebStoreProject.Services
     {
         StoreContext _context;
         IWriteToBrowser _write;
-        private IReadFromBrowser _read;
+        IReadFromBrowser _read;
 
         public RepositoryUser(StoreContext context , IWriteToBrowser write, IReadFromBrowser readFrom)
         {

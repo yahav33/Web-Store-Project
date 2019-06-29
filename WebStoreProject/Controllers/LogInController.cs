@@ -54,12 +54,12 @@ namespace WebStoreProject.Controllers
                 _write.WriteToSession("User", userNote);
                 _write.WriteCookies("User", userNote);
                _logger.WriteLog($"user log in : {login.Username}", Catgory.User);
-                return View("Index", "Home");
+                return RedirectToAction("Index", "Home");
             }
             else
             {
                 //Player Not Login
-                return View("index", "Login");
+                return RedirectToAction("index", "Login");
             }
         }
 
