@@ -22,7 +22,7 @@
         @foreach (var pro in Model)
         {
             <div id="pic">
-            @if (pro.Status != StatusState.In_Cart)
+            @if (pro.Status != StatusState.InCart)
             {
                 @await Html.PartialAsync("_PartialViewPoster", pro)
             }
@@ -33,7 +33,7 @@
         @foreach (var pro in Model)
         {
              <div id="pic">
-            @if (pro.Status == StatusState.In_Cart)
+            @if (pro.Status == StatusState.InCart)
             {
                 @await Html.PartialAsync("_PartialViewPoster", pro)
             }

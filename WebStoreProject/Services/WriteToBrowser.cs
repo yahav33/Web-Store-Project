@@ -1,29 +1,24 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using WebStoreProject.Models;
 
 namespace WebStoreProject.Services
 {
     public class WriteToBrowser : IWriteToBrowser
     {
-        private IHttpContextAccessor _write;
-        private IConfiguration _configration;
+        private readonly IHttpContextAccessor _write;
+        private readonly IConfiguration _configration;
 
-        public WriteToBrowser(IHttpContextAccessor HttpContextAccessor,IConfiguration configration)
+        public WriteToBrowser(IHttpContextAccessor httpContextAccessor,IConfiguration configration)
         {
-            _write = HttpContextAccessor;
+            _write = httpContextAccessor;
             _configration = configration;
         }
 
         //Cookies
         public void WriteCookies(string key, string value)
         {
-            CookieOptions option = new CookieOptions();
+            var option = new CookieOptions();
             option.Expires = DateTime.Now.AddMinutes(double.Parse(_configration["RefreshDuration"]));
             _write.HttpContext.Response.Cookies.Append(key,value,option);
         }

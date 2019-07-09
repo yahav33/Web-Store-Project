@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using WebStoreProject.Models;
 
 namespace WebStoreProject.Services
@@ -9,9 +6,9 @@ namespace WebStoreProject.Services
     public interface ICartManager
     {
         
-        ShoppingCart AddProduct(long ProductID,ShoppingCart Cart,long UserID = -1);
-        ShoppingCart RemoveProduct(long ProductID, ShoppingCart Cart);
-        List<long> GetCartProducts(ShoppingCart Cart);
+        ShoppingCart AddProduct(long productId,ShoppingCart cart,long userId = -1);
+        ShoppingCart RemoveProduct(long productId, ShoppingCart cart);
+        List<long> GetCartProducts(ShoppingCart cart);
        
 
 

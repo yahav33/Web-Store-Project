@@ -1,7 +1,7 @@
 ﻿@model List<Product>
-@inject WebStoreProject.Services.IRepositoryProducts IProducts
+@inject WebStoreProject.Services.IRepositoryProducts Products
 @inject IHttpContextAccessor HttpContextAccessor
-@inject IReadFromBrowser reader
+@inject IReadFromBrowser Reader
 
 
 
@@ -17,13 +17,13 @@
             </tr>
         </thead>
         <tbody>
-            @for (int i = 0; i < Model.Count; i++)
+            @for (var i = 0; i < Model.Count; i++)
             {
                 <tr>
                     <th scope="row">@(i + 1)</th>
                     <td>@Model[i].Title</td>
                     <td>@Model[i].Price$</td>
-                    <td><a asp-route-productID="@Model[i].ProductId" asp-controller="ShoppingCart" asp-action="RemoveFromCart" class="btn btn-primary">Remove</a></td>
+                    <td><a asp-route-productId="@Model[i].ProductId" asp-controller="ShoppingCart" asp-action="RemoveFromCart" class="btn btn-primary">Remove</a></td>
                 </tr>
             }
 
@@ -33,10 +33,10 @@
         <div class="card container">
             <h5 class="card-header">Summery</h5>
             <div class="card-body">
-                @if (reader.ReadCookie("Cart") != null)
+                @if (Reader.ReadCookie("Cart") != null)
                 {
-                    <h5 class="card-text">Total : @IProducts.TotalCardWorth(reader.ReadCookie("Cart")) </h5>
-                    <p class="card-text">Total For Members : @(IProducts.TotalCardWorthForMembers(reader.ReadCookie("Cart"))) </p>
+                    <h5 class="card-text">Total : @Products.TotalCardWorth(Reader.ReadCookie("Cart")) </h5>
+                    <p class="card-text">Total For Members : @(Products.TotalCardWorthForMembers(Reader.ReadCookie("Cart"))) </p>
                 }
                 else
                 {
@@ -45,7 +45,7 @@
                 }
 
                 <td><a asp-controller="Home" asp-action="Index" class="btn btn-primary">Go Home</a></td>
-                <a  asp-route-ShoppingCart="@reader.ReadCookie("Cart")" asp-controller="ShoppingCart" asp-action="Purchase" class="btn btn-primary">Purchase</a>
+                <a  asp-route-shoppingCart="@Reader.ReadCookie("Cart")" asp-controller="ShoppingCart" asp-action="Purchase" class="btn btn-primary">Purchase</a>
             </div>
         </div>
     

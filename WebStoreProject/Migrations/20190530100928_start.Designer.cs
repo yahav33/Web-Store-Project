@@ -11,7 +11,7 @@ namespace WebStoreProject.Migrations
 {
     [DbContext(typeof(StoreContext))]
     [Migration("20190530100928_start")]
-    partial class start
+    partial class Start
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

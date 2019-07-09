@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using WebStoreProject.Models;
 using WebStoreProject.Services;
 
 namespace TestProject.FakeRepositories
 {
-    class FakeUserRepository : IRepositoryUser
+    internal class FakeUserRepository : IRepositoryUser
     {
         public static List<User> Users = new List<User>()
         {
@@ -85,7 +84,7 @@ namespace TestProject.FakeRepositories
             throw new NotImplementedException();
         }
 
-        public bool UpdateUser(string userPP, Register register)
+        public bool UpdateUser(string userPp, Register register)
         {
             throw new NotImplementedException();
         }

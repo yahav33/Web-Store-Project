@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebStoreProject.Migrations
 {
-    public partial class start : Migration
+    public partial class Start : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

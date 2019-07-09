@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace WebStoreProject.Services
+﻿namespace WebStoreProject.Services
 {
     public class CheckUserExist : ICheckUserExist
     {
-        private IReadFromBrowser _read;
+        private readonly IReadFromBrowser _read;
 
         public CheckUserExist(IReadFromBrowser readFrom)
         {

@@ -1,37 +1,36 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using WebStoreProject.Models;
 
 namespace WebStoreProject.Services
 {
     public class EmptyCart : IEmptyCart
     {
-        ICartManager _cartManager;
-        IRepositoryProducts _repositoryProducts;
+        private readonly ICartManager _cartManager;
+        private readonly IRepositoryProducts _repositoryProducts;
 
         public EmptyCart(ICartManager cartManager,IRepositoryProducts repositoryProducts)
         {
             _cartManager = cartManager;
             _repositoryProducts = repositoryProducts;
         }
-        void IEmptyCart.EmptyCart(string Cart)
+
+        //TODO: This implementation looks very strange... Does this work?
+        void IEmptyCart.EmptyCart(string cart)
         {
-            if (Cart == null) return;
-            ShoppingCart cart = JsonConvert.DeserializeObject<ShoppingCart>(Cart);
-            List<long> ids = cart.ProductIDs;
-            int count = cart.ProductIDs.Count;
-            for (int i = 0; i < count; i++)
+            if (cart == null) return;
+            var shoppingCart = JsonConvert.DeserializeObject<ShoppingCart>(cart);
+            var ids = shoppingCart.ProductIDs;
+            var count = shoppingCart.ProductIDs.Count;
+
+            for (var i = 0; i < count; i++)
             {
-                Product tmp = _repositoryProducts.GetProduct(ids.Last());
-                tmp.Status = StatusState.In_Stock;
-                _cartManager.RemoveProduct(ids.Last(), cart);
-
+                var tmp = _repositoryProducts.GetProduct(ids.Last());
+                tmp.Status = StatusState.InStock;
+                _cartManager.RemoveProduct(ids.Last(), shoppingCart);
             }
-            _repositoryProducts.SaveProducts();
 
+            _repositoryProducts.SaveProducts();
         }
     }
 }

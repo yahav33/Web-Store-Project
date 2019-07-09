@@ -1,6 +1,6 @@
 ﻿@model Register
 
-@inject IReadFromBrowser reader
+@inject IReadFromBrowser Reader
 
 <form asp-action="Register" method="post" style="margin-top:2cm;">
 
@@ -43,7 +43,7 @@
 
 
 
-    @if (reader.ReadCookie("User") == null)
+    @if (Reader.ReadCookie("User") == null)
     {
         <input type="submit" value="Register" />
     }

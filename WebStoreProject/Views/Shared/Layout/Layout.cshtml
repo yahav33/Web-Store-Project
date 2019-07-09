@@ -1,8 +1,8 @@
 ﻿
-@inject IReadFromBrowser reader
-@inject IRepositoryUser userRepository
-@inject WebStoreProject.Services.ICheckTime message
-@inject ICounterCart counter
+@inject IReadFromBrowser Reader
+@inject IRepositoryUser UserRepository
+@inject WebStoreProject.Services.ICheckTime Message
+@inject ICounterCart Counter
 
 
 
@@ -20,7 +20,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head>
 <body onload="openCity()">
-    @if (reader.ReadCookie("User") != null)
+    @if (Reader.ReadCookie("User") != null)
     {
 
     <ul class="nav nav-tabs">
@@ -52,7 +52,7 @@
         <li class="nav-item">
             <a class="nav-link" id="cart" asp-action="index" asp-controller="ShoppingCart">
                 <img src="~/Images/cart.png" width="50" height="30" class="d-inline-block align-top" alt="">
-                <span>(@counter.GetNumOfProduct())</span>
+                <span>(@Counter.GetNumOfProduct())</span>
             </a>
         </li>
         <li class="nav-item dropdown">
@@ -63,7 +63,7 @@
                 <a id="register" class="dropdown-item" asp-action="index" asp-controller="Register">Update User</a>
                 <a id="myProducts" class="dropdown-item" asp-controller="Product" asp-action="MyProducts">My Products</a>
 
-                @if (userRepository.IsUserAdmin(reader.ReadCookie("User")))
+                @if (UserRepository.IsUserAdmin(Reader.ReadCookie("User")))
                 {
                     <div class="dropdown-divider"></div>
                     <a id="admin" class="dropdown-item" asp-action="index" asp-controller="Admin">Edit Users (Admin Only)</a>
@@ -81,8 +81,8 @@
 
                 <li class="nav-item">
                     <div style="font-size:20px;margin-top:0.2cm;">
-                        <span> @message.GetMessage(),</span>
-                        <span style="color:green"> @userRepository.GetUserName(reader.ReadCookie("User"))</span>
+                        <span> @Message.GetMessage(),</span>
+                        <span style="color:green"> @UserRepository.GetUserName(Reader.ReadCookie("User"))</span>
                     </div>
                 </li>
 
@@ -129,13 +129,13 @@
         <li class="nav-item">
             <a class="nav-link" id="cart" asp-action="index" asp-controller="ShoppingCart">
                 <img src="~/Images/cart.png" width="50" height="30" class="d-inline-block align-top" alt="">
-                <span>(@counter.GetNumOfProduct())</span>
+                <span>(@Counter.GetNumOfProduct())</span>
             </a>
         </li>
         <li class="nav-item">
             <div style="font-size:20px;margin-top:0.2cm;">
-                <span> @message.GetMessage(),</span>
-                <span style="color:green"> @userRepository.GetUserName(reader.ReadCookie("User"))</span>
+                <span> @Message.GetMessage(),</span>
+                <span style="color:green"> @UserRepository.GetUserName(Reader.ReadCookie("User"))</span>
             </div>
         </li>
     </ul>

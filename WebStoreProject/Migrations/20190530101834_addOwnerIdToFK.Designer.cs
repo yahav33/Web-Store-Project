@@ -11,7 +11,7 @@ namespace WebStoreProject.Migrations
 {
     [DbContext(typeof(StoreContext))]
     [Migration("20190530101834_addOwnerIdToFK")]
-    partial class addOwnerIdToFK
+    partial class AddOwnerIdToFk
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

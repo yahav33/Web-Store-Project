@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using WebStoreProject.Services;
 
 namespace TestProject.FakeRepositories
 {
-    class FakeEmptyCart : IEmptyCart
+    internal class FakeEmptyCart : IEmptyCart
     {
-        public void EmptyCart(string Cart)
+        public void EmptyCart(string cart)
         {
             throw new NotImplementedException();
         }

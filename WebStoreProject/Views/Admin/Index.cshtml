@@ -1,5 +1,5 @@
 ﻿@model List<User>
-@inject IRepositoryUser userRepo
+@inject IRepositoryUser UserRepo
 
 
 <table class="table table-striped table-dark container">
@@ -13,10 +13,10 @@
         </tr>
     </thead>
     <tbody>
-        @for (int i = 0; i < Model.Count; i++)
+        @for (var i = 0; i < Model.Count; i++)
         {
 
-            @if (!(userRepo.GetUserFromCookie().UserId == Model[i].UserId))
+            @if (!(UserRepo.GetUserFromCookie().UserId == Model[i].UserId))
             {
                 <tr>
                     <th scope="row">@(i + 1)</th>

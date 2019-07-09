@@ -1,5 +1,5 @@
 ﻿@model Product
-@inject WebStoreProject.Services.IReadPhoto reader
+@inject WebStoreProject.Services.IReadPhoto Reader
 
 <html>
 <head>
@@ -35,7 +35,7 @@
                     }
                     else
                     {
-                        <img src="@reader.ByteToImage(Model.ImageOne)" alt="Eroor" width="345" height="345" />
+                        <img src="@Reader.ByteToImage(Model.ImageOne)" alt="Eroor" width="345" height="345" />
                     }
                 </div>
                 <div class="carousel-item ">
@@ -45,7 +45,7 @@
                     }
                     else
                     {
-                        <img src="@reader.ByteToImage(Model.ImageTwo)" alt="Eroor" width="345" height="345" />
+                        <img src="@Reader.ByteToImage(Model.ImageTwo)" alt="Eroor" width="345" height="345" />
                     }
                 </div>
                 <div class="carousel-item ">
@@ -55,7 +55,7 @@
                     }
                     else
                     {
-                        <img src="@reader.ByteToImage(Model.ImageThree)" alt="Eroor" width="345" height="345" />
+                        <img src="@Reader.ByteToImage(Model.ImageThree)" alt="Eroor" width="345" height="345" />
                     }
                 </div>
             </div>

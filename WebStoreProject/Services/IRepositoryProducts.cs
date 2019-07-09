@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using WebStoreProject.Models;
 
 namespace WebStoreProject.Services
@@ -13,9 +10,9 @@ namespace WebStoreProject.Services
         Product GetProduct(long id);
         List<Product> GetCartProducts(List<long> productids);
         int SaveProducts();
-        decimal TotalCardWorth(string ShoppingCart);
-        decimal TotalCardWorthForMembers(string ShoppingCart);
-        void BuyProducts(string ShoppingCart);
+        decimal TotalCardWorth(string shoppingCart);
+        decimal TotalCardWorthForMembers(string shoppingCart);
+        void BuyProducts(string shoppingCart);
         void RemoveProduct(long id);
         List<Product> GetProductsOfUser(long userId);
         List<Product> Search(string searchKey);
