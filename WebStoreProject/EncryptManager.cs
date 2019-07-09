@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace WebStoreProject
 {
@@ -11,8 +7,8 @@ namespace WebStoreProject
 
         public static string EncryptPass(string pass)
         {
-            byte[] passes = Encoding.ASCII.GetBytes(pass);
-            for (int i = 0; i < passes.Length; i++)
+            var passes = Encoding.ASCII.GetBytes(pass);
+            for (var i = 0; i < passes.Length; i++)
             {
                 passes[i] ^= 97;
             }

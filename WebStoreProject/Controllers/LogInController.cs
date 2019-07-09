@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using WebStoreProject.Models;
 using WebStoreProject.Services;
@@ -12,17 +7,17 @@ namespace WebStoreProject.Controllers
 {
     public class LoginController : Controller
     {
-        IRepositoryUser _irepositoryUser;
-        private IReadFromBrowser _read;
-        private IWriteToBrowser _write;
-        private IEmptyCart _emptyCart;
-        private IEmailManger _sendEmail;
-        private ILogger _logger;
+        private readonly IRepositoryUser _repositoryUser;
+        private readonly IReadFromBrowser _read;
+        private readonly IWriteToBrowser _write;
+        private readonly IEmptyCart _emptyCart;
+        private readonly IEmailManger _sendEmail;
+        private readonly ILogger _logger;
 
-        public LoginController(IEmptyCart emptyCart,IRepositoryUser irepositoryUser, 
+        public LoginController(IEmptyCart emptyCart,IRepositoryUser repositoryUser, 
             IReadFromBrowser read, IWriteToBrowser write, IEmailManger email,ILogger logger)
         {
-            _irepositoryUser = irepositoryUser;
+            _repositoryUser = repositoryUser;
             _read = read;
             _write = write;
             _emptyCart = emptyCart;
@@ -31,13 +26,10 @@ namespace WebStoreProject.Controllers
         }
         public IActionResult Index()
         {
-            
-            string User = _read.ReadSession("User");
+            var user = _read.ReadSession("User");
            
-            if (User != null)
-            {
+            if (user != null)
                 return RedirectToAction("Index","Home");
-            }
             
             return View();
         }
@@ -45,12 +37,11 @@ namespace WebStoreProject.Controllers
         [HttpPost]
         public IActionResult Login(Login login)
         {
-         
-            if (_irepositoryUser.Login(login))
+            if (_repositoryUser.Login(login))
             {
                 //User Login
                
-                var userNote = JsonConvert.SerializeObject(_irepositoryUser.GetUserByUserName(login.Username));
+                var userNote = JsonConvert.SerializeObject(_repositoryUser.GetUserByUserName(login.Username));
                 _write.WriteToSession("User", userNote);
                 _write.WriteCookies("User", userNote);
                _logger.WriteLog($"user log in : {login.Username}", Catgory.User);
@@ -64,36 +55,28 @@ namespace WebStoreProject.Controllers
         }
 
         [HttpPost]
-        public JsonResult LoginChecker(string Password)
+        public JsonResult LoginChecker(string password)
         {
-
-            return Json(_irepositoryUser.Login(Password));
+            return Json(_repositoryUser.Login(password));
         }
 
         public IActionResult ForgotPassword()
         {
-           
             return View();
         }
 
         [HttpPost]
         public IActionResult ForgotPassword(Login login)
         {
-            var user = _irepositoryUser.GetUserByUserName(login.Username);
-            if(user != null)
+            var user = _repositoryUser.GetUserByUserName(login.Username);
+            if(user != null && user.Email == login.Email && user.BirthDate == login.BirthDate)
             {
-                if (user.Email == login.Email && user.BirthDate == login.BirthDate)
-                {
-                    string message = "Your Password is : "+EncryptManager.EncryptPass(user.Password);
-                    _sendEmail.SendEmail(message, user.Email, "Your Password");
-                    _logger.WriteLog($"User : {login.Username} - reconstruction his Password",Catgory.User);
-
-                }
+                var message = "Your Password is : "+EncryptManager.EncryptPass(user.Password);
+                _sendEmail.SendEmail(message, user.Email, "Your Password");
+                _logger.WriteLog($"User : {login.Username} - reconstruction his Password",Catgory.User);
             }
 
             return RedirectToAction("index", "login");
-           
-           
         }
         
         public IActionResult Logout()

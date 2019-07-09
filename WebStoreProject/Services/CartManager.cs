@@ -1,8 +1,5 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using WebStoreProject.Models;
 
 namespace WebStoreProject.Services
@@ -16,32 +13,32 @@ namespace WebStoreProject.Services
             _read = readFrom;
         }
 
-        public ShoppingCart AddProduct(long ProductID, ShoppingCart Cart, long UserID = -1)
+        public ShoppingCart AddProduct(long productId, ShoppingCart cart, long userId = -1)
         {
-            if (Cart == null) CreateCart(ref Cart,UserID);
+            if (cart == null) CreateCart(ref cart,userId);
            
-            Cart.ProductIDs.Add(ProductID);
-            return Cart;
+            cart.ProductIDs.Add(productId);
+            return cart;
         }
 
-        public List<long> GetCartProducts(ShoppingCart Cart)
+        public List<long> GetCartProducts(ShoppingCart cart)
         {
-            return Cart.ProductIDs;
+            return cart.ProductIDs;
         }
 
-        public ShoppingCart RemoveProduct(long ProductID, ShoppingCart Cart)
+        public ShoppingCart RemoveProduct(long productId, ShoppingCart cart)
         {
-            Cart.ProductIDs.Remove(ProductID);
-            return Cart;
+            cart.ProductIDs.Remove(productId);
+            return cart;
         }
 
         
 
-        private void CreateCart(ref ShoppingCart Cart,long UserID)
+        private void CreateCart(ref ShoppingCart cart,long userId)
         {
-            Cart = new ShoppingCart { UserID = UserID };
-            Cart.ProductIDs = new List<long>();
-            Cart.InitCartTime = DateTime.Now;
+            cart = new ShoppingCart { UserId = userId };
+            cart.ProductIDs = new List<long>();
+            cart.InitCartTime = DateTime.Now;
         }
 
       

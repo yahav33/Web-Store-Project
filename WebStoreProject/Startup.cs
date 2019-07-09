@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -15,7 +12,7 @@ namespace WebStoreProject
 {
     public class Startup
     {
-        private IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
 
         public Startup(IConfiguration configuration)
         {
@@ -27,7 +24,7 @@ namespace WebStoreProject
         {
             services.AddDbContext<StoreContext>(options =>
             {
-                string connectionString = _configuration.GetConnectionString("MyConnection");
+                var connectionString = _configuration.GetConnectionString("MyConnection");
                 options.UseLazyLoadingProxies()
                     .UseSqlServer(connectionString);
 

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using WebStoreProject.Models;
 
 namespace WebStoreProject.Services
 {
@@ -10,8 +6,8 @@ namespace WebStoreProject.Services
     {
         public bool DateValidation(DateTime register)
         {
-            int regYear = register.Year;
-            int currentYear = DateTime.Now.Year;
+            var regYear = register.Year;
+            var currentYear = DateTime.Now.Year;
             return currentYear - regYear > 15;
         }
 

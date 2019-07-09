@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using WebStoreProject.Data;
 using WebStoreProject.Models;
 
@@ -10,9 +8,9 @@ namespace WebStoreProject.Services
 {
     public class RepositoryUser : IRepositoryUser
     {
-        StoreContext _context;
-        IWriteToBrowser _write;
-        IReadFromBrowser _read;
+        private readonly StoreContext _context;
+        private readonly IWriteToBrowser _write;
+        private readonly IReadFromBrowser _read;
 
         public RepositoryUser(StoreContext context , IWriteToBrowser write, IReadFromBrowser readFrom)
         {
@@ -24,7 +22,7 @@ namespace WebStoreProject.Services
         public bool IsUserAdmin(string userCoockie)
         {
             if (userCoockie == null) return false;
-            User user = JsonConvert.DeserializeObject<User>(userCoockie);
+            var user = JsonConvert.DeserializeObject<User>(userCoockie);
             
             return user.Level > 0;
         }
@@ -69,10 +67,10 @@ namespace WebStoreProject.Services
             _context.SaveChanges();
 
         }
-        public bool UpdateUser(string userPP,Register register)
+        public bool UpdateUser(string userPp,Register register)
         {
-            User userr = JsonConvert.DeserializeObject<User>(userPP);
-            User user = _context.Users.FirstOrDefault(x => x.UserId == userr.UserId);
+            var userr = JsonConvert.DeserializeObject<User>(userPp);
+            var user = _context.Users.FirstOrDefault(x => x.UserId == userr.UserId);
             if (user != null)
             {
                 user.BirthDate = register.BirthDate;
@@ -84,7 +82,7 @@ namespace WebStoreProject.Services
                 user.UserName = userr.UserName;
                 user.Password = EncryptManager.EncryptPass(register.Password);
 
-                string json = JsonConvert.SerializeObject(user);
+                var json = JsonConvert.SerializeObject(user);
                 _write.WriteCookies("User", json);
                 _write.WriteToSession("User", json);
             }
@@ -95,7 +93,7 @@ namespace WebStoreProject.Services
         public string GetUserName(string userCookie)
         {
             if (userCookie == null) return "New User";
-            User user = JsonConvert.DeserializeObject<User>(userCookie);
+            var user = JsonConvert.DeserializeObject<User>(userCookie);
             if(user== null)
             {
                 return "New User";
@@ -109,18 +107,18 @@ namespace WebStoreProject.Services
         }
         public User GetUserFromCookie()
         {
-            string user = _read.ReadCookie("User");
+            var user = _read.ReadCookie("User");
             if (user != null)
             {
-                User newUser = JsonConvert.DeserializeObject<User>(user);
+                var newUser = JsonConvert.DeserializeObject<User>(user);
                 return newUser;
             }
             return null;
         }
 
-        public bool Login(string Password)
+        public bool Login(string password)
         {     
-            var val = _context.Users.FirstOrDefault(x => x.Password.ToLower() == EncryptManager.EncryptPass(Password.ToLower()));
+            var val = _context.Users.FirstOrDefault(x => x.Password.ToLower() == EncryptManager.EncryptPass(password.ToLower()));
             return val != null;
         }
     }

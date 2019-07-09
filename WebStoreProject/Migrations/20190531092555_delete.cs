@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebStoreProject.Migrations
 {
-    public partial class delete : Migration
+    public partial class Delete : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

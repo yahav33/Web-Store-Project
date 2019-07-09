@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebStoreProject.Migrations
 {
-    public partial class addOwnerIdToFK : Migration
+    public partial class AddOwnerIdToFk : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -1,7 +1,7 @@
 ﻿@model Product
-@inject WebStoreProject.Services.IReadPhoto reader
-@inject IReadFromBrowser readerr
-@inject IRepositoryUser userRepository
+@inject WebStoreProject.Services.IReadPhoto Reader
+@inject IReadFromBrowser Readerr
+@inject IRepositoryUser UserRepository
 <html>
 <head>
     
@@ -14,17 +14,17 @@
         }
         else
         {
-            <img src="@reader.ByteToImage(Model.ImageOne)" alt="Eroor" class="card-img-top" style="height: 18rem;" />
+            <img src="@Reader.ByteToImage(Model.ImageOne)" alt="Eroor" class="card-img-top" style="height: 18rem;" />
         }
             <div class="card-body">
                 <h5 class="card-title">@Model.Title</h5>
                 <p class="card-text"> @Model.ShortDescription</p>
                 <p class="card-text"><span>@Model.Price$</span> | <span>@Model.Date.ToShortDateString()</span> </p>
                 <a asp-route-prodid="@Model.ProductId" asp-controller="Product" asp-action="Details" class="btn btn-primary">More Details</a>
-                <a asp-route-productID="@Model.ProductId" asp-controller="ShoppingCart" asp-action="AddToCart" class="btn btn-primary">Add to Cart</a>
+                <a asp-route-productId="@Model.ProductId" asp-controller="ShoppingCart" asp-action="AddToCart" class="btn btn-primary">Add to Cart</a>
                 <br />
                 <p>
-                    @if (userRepository.IsUserAdmin(readerr.ReadCookie("User")))
+                    @if (UserRepository.IsUserAdmin(Readerr.ReadCookie("User")))
                     {
                         <a asp-controller="Product" asp-action="Delete" class="del"></a>
                         <input id="delete" onclick="myDelete(e)" type="button" value="Delete" class="btn btn-danger" data-id="@Model.ProductId" />

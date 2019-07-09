@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using WebStoreProject.Models;
 
 namespace WebStoreProject.Services
@@ -15,7 +12,7 @@ namespace WebStoreProject.Services
         User GetUser(int id);
         void CreateUser(User user);
         bool EmailCheck(string email);
-        bool UpdateUser(string userPP,Register register);
+        bool UpdateUser(string userPp,Register register);
         void SaveUsers();
         bool IsUserAdmin(string userCoockie);
         string GetUserName(string userCookie);

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using WebStoreProject.Models;
 using WebStoreProject.Services;
 
@@ -10,10 +6,10 @@ namespace WebStoreProject.Controllers
 {
     public class AdminController : Controller
     {
-        IRepositoryUser _repositoryUser;
-        ICheckUserExist _check;
-        ILogger _logger;
-        IReadFromBrowser _read;
+        private readonly IRepositoryUser _repositoryUser;
+        private readonly ICheckUserExist _check;
+        private readonly ILogger _logger;
+        private readonly IReadFromBrowser _read;
 
         public AdminController(IRepositoryUser repositoryUser,
             ICheckUserExist exist, ILogger logger, IReadFromBrowser read)
@@ -30,42 +26,45 @@ namespace WebStoreProject.Controllers
             return View(_repositoryUser.GetUsers());
         }
 
-        public IActionResult EditUser(long UserID)
+        public IActionResult EditUser(long userId)
         {
             if (_check.CheckUserLogin() == false) return RedirectToAction("Index", "Login");
-            User user = _repositoryUser.GetUser((int)UserID);
-            if(user != null)
-            return View(user);
+            var user = _repositoryUser.GetUser((int)userId);
+            if (user != null)
+                return View(user);
 
             return RedirectToAction("Index", "Home");
         }
 
-        
+
         [HttpPut]
         public IActionResult AuthorizationAdmin([FromBody]UpdateUser user)
         {
             if (_check.CheckUserLogin() == false) return RedirectToAction("Index", "Login");
-            if (user.isChecked == "yes")
+            if (user.IsChecked == "yes")
             {
-                User tempuser = _repositoryUser.GetUser((int)user.Userid);
-                if(tempuser != null)
+                var tempUser = _repositoryUser.GetUser((int)user.Userid);
+                if (tempUser != null)
                 {
-                    tempuser.Level = 1;
-                    _logger.WriteLog($"User : {tempuser.UserName} , Updated To Admin Level",Catgory.User);
+                    tempUser.Level = 1;
+                    _logger.WriteLog($"User : {tempUser.UserName} , Updated To Admin Level", Catgory.User);
                     _repositoryUser.SaveUsers();
                 }
+
                 return RedirectToAction("Index", "Home");
             }
             else
             {
-                User tempuser = _repositoryUser.GetUser((int)user.Userid);
-                if (tempuser != null)
+                var tempUser = _repositoryUser.GetUser((int)user.Userid);
+                if (tempUser != null)
                 {
-                    tempuser.Level = 0;
+                    tempUser.Level = 0;
                     _repositoryUser.SaveUsers();
                 }
             }
-            return View("index","Admin");
+
+            //TODO: Should the below not be RedirectToAction("index", "Admin"); ?
+            return View("index", "Admin");
         }
     }
 }

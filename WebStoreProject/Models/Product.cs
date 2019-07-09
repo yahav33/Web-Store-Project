@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace WebStoreProject.Models
 {
@@ -31,7 +28,7 @@ namespace WebStoreProject.Models
         public byte[] ImageTwo { get; set; }
         public byte[] ImageThree { get; set; }
         
-        public StatusState Status { get; set; } = StatusState.In_Stock;
+        public StatusState Status { get; set; } = StatusState.InStock;
       
         public virtual User User { get; set; } //FK
         public virtual User Owner { get; set; } //FK
@@ -39,8 +36,8 @@ namespace WebStoreProject.Models
     
     public enum StatusState
     {
-        In_Stock,
-        In_Cart,
+        InStock,
+        InCart,
         Purchased
     }
 }

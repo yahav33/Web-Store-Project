@@ -11,7 +11,7 @@ namespace WebStoreProject.Migrations
 {
     [DbContext(typeof(StoreContext))]
     [Migration("20190531092555_delete")]
-    partial class delete
+    partial class Delete
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

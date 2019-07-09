@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using WebStoreProject.Models;
@@ -12,14 +9,12 @@ namespace WebStoreProject.Controllers
 {
     public class ShoppingCartController : Controller
     {
-
-       
-        ICartManager _cartManager;
-        IRepositoryProducts _repositoryProducts;
-        IReadFromBrowser _read;
-        IWriteToBrowser _write;
-        ICheckUserExist _check;
-        ILogger _logger;
+        private readonly ICartManager _cartManager;
+        private readonly IRepositoryProducts _repositoryProducts;
+        private readonly IReadFromBrowser _read;
+        private readonly IWriteToBrowser _write;
+        private readonly ICheckUserExist _check;
+        private readonly ILogger _logger;
 
         public ShoppingCartController(ICartManager cartManager,
             IRepositoryProducts repositoryProducts, IReadFromBrowser read,
@@ -32,96 +27,90 @@ namespace WebStoreProject.Controllers
             _write = write;
             _check = checkUser;
             _logger = logger;
-
         }
+
         public IActionResult Index()
         {
-            
-            List<Product> products = new List<Product>();
-            string cart = _read.ReadCookie("Cart");
+            var products = new List<Product>();
+            var cart = _read.ReadCookie("Cart");
             if(cart == null) return View(products);
-            ShoppingCart shoppingCart = JsonConvert.DeserializeObject<ShoppingCart>(cart);
+            var shoppingCart = JsonConvert.DeserializeObject<ShoppingCart>(cart);
             var productListIDs = _cartManager.GetCartProducts(shoppingCart);
             var productList = _repositoryProducts.GetCartProducts(productListIDs);
             
             return View(productList);
         }
-        public IActionResult AddToCart(long productID)
+        public IActionResult AddToCart(long productId)
         {
-           
-            string cart = _read.ReadCookie("Cart");
-            string currentUser = _read.ReadSession("User");
-            ShoppingCart userCart = null;
+            var cart = _read.ReadCookie("Cart");
+            var currentUser = _read.ReadSession("User");
+            ShoppingCart userCart;
             if (currentUser == null) // No user login
-
             { 
                 if (cart == null) // No Cart Exist
                 {
                     //Create New Cart with product ID
-                    userCart = _cartManager.AddProduct(productID, null);
+                    userCart = _cartManager.AddProduct(productId, null);
                     _write.WriteCookies("Cart", JsonConvert.SerializeObject(userCart));
-                    SaveInCart(productID);
+                    SaveInCart(productId);
                     return RedirectToAction("Index");
                 }
                 else // Cart exist, add product only
                 {
                     userCart = JsonConvert.DeserializeObject<ShoppingCart>(cart);
-                    userCart = _cartManager.AddProduct(productID, userCart);
+                    userCart = _cartManager.AddProduct(productId, userCart);
                    _write.WriteCookies("Cart", JsonConvert.SerializeObject(userCart));
-                    SaveInCart(productID);
+                    SaveInCart(productId);
                     return RedirectToAction("Index");
                 }
-
-                
             }
             else // there is a User Login in the web store
             {
-
                 if (cart == null)// empty cart to the user login
                 {
-
-                    long userID = JsonConvert.DeserializeObject<User>(currentUser).UserId;
-                    userCart = _cartManager.AddProduct(productID, null, userID);
+                    var userId = JsonConvert.DeserializeObject<User>(currentUser).UserId;
+                    userCart = _cartManager.AddProduct(productId, null, userId);
                    _write.WriteCookies("Cart", JsonConvert.SerializeObject(userCart));
-                    SaveInCart(productID);
+                    SaveInCart(productId);
                     return RedirectToAction("Index");
 
                 }
                 else // cart with product already
                 {
                     userCart = JsonConvert.DeserializeObject<ShoppingCart>(cart);
-                    userCart = _cartManager.AddProduct(productID, userCart);
+                    userCart = _cartManager.AddProduct(productId, userCart);
                    _write.WriteCookies("Cart", JsonConvert.SerializeObject(userCart));
-                    SaveInCart(productID);
+                    SaveInCart(productId);
                     return RedirectToAction("Index");
                 }
             }
-
-          
         }
-        public IActionResult Purchase(string ShoppingCart)
+
+        public IActionResult Purchase(string shoppingCart)
         {
             if (_check.CheckUserLogin() == false) return RedirectToAction("Index", "Login");
-            _repositoryProducts.BuyProducts(ShoppingCart);
-            _logger.WriteLog($"Products that Purchase{ShoppingCart}", Catgory.Product);
+            _repositoryProducts.BuyProducts(shoppingCart);
+            _logger.WriteLog($"Products that Purchase{shoppingCart}", Catgory.Product);
             return RedirectToAction("index", "Home");
         }
-        private void SaveInCart( long productID)
+        private void SaveInCart( long productId)
         {
-            Product product = _repositoryProducts.GetProduct(productID);
-            product.Status = StatusState.In_Cart;
+            var product = _repositoryProducts.GetProduct(productId);
+            product.Status = StatusState.InCart;
             product.TimeStamp = DateTime.Now;
             _repositoryProducts.SaveProducts();
         }
 
-        public IActionResult RemoveFromCart(long ProductID)
+        public IActionResult RemoveFromCart(long productId)
         {
-            ShoppingCart userCart = JsonConvert.DeserializeObject<ShoppingCart>(_read.ReadCookie("Cart"));
+            var userCart = JsonConvert.DeserializeObject<ShoppingCart>(_read.ReadCookie("Cart"));
+
             if (userCart == null) return View();
-            userCart = _cartManager.RemoveProduct(ProductID, userCart);
+
+            userCart = _cartManager.RemoveProduct(productId, userCart);
             _write.WriteCookies("Cart", JsonConvert.SerializeObject(userCart));
-            Product product = _repositoryProducts.GetProduct(ProductID);
-            product.Status = StatusState.In_Stock;
+            var product = _repositoryProducts.GetProduct(productId);
+            product.Status = StatusState.InStock;
             _repositoryProducts.SaveProducts();
             return RedirectToAction("Index");
         }

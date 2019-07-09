@@ -5,7 +5,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using WebStoreProject.Data;
 using WebStoreProject.Models;
 
@@ -13,16 +12,16 @@ namespace WebStoreProject.Services
 {
     public class RepositoryProducts : IRepositoryProducts
     {
-        StoreContext _context;
-        IConfiguration _configuration;
-        IHttpContextAccessor _HttpContextAccessor;
-        IEmailManger _emailManger;
-        IReadFromBrowser _readFromBrowser;
-        public RepositoryProducts(StoreContext context,IReadFromBrowser readFromBrowser,IEmailManger emailManger,IConfiguration configuration, IHttpContextAccessor HttpContextAccessor)
+        private readonly StoreContext _context;
+        private readonly IConfiguration _configuration;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IEmailManger _emailManger;
+        private readonly IReadFromBrowser _readFromBrowser;
+        public RepositoryProducts(StoreContext context,IReadFromBrowser readFromBrowser,IEmailManger emailManger,IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _configuration = configuration;
-            _HttpContextAccessor = HttpContextAccessor;
+            _httpContextAccessor = httpContextAccessor;
             _emailManger = emailManger;
             _readFromBrowser = readFromBrowser;
         }
@@ -33,19 +32,19 @@ namespace WebStoreProject.Services
             
             CheckProductsOverTime();
 
-            return _context.Products.Where(x => x.Status == StatusState.In_Stock).ToList();
+            return _context.Products.Where(x => x.Status == StatusState.InStock).ToList();
         }
         
         private void CheckProductsOverTime()
         {
-            List<Product> inCartProducts = _context.Products.Where(x => x.Status == StatusState.In_Cart).ToList();
+            var inCartProducts = _context.Products.Where(x => x.Status == StatusState.InCart).ToList();
             if (inCartProducts != null || inCartProducts.Count > 0)
             {
                 foreach (var item in inCartProducts)
                 {
                     if (item.TimeStamp.AddMinutes(double.Parse(_configuration["RefreshDuration"])) < DateTime.Now)
                     {
-                        item.Status = StatusState.In_Stock;
+                        item.Status = StatusState.InStock;
                         SaveProducts();
                     }
                 }
@@ -64,10 +63,10 @@ namespace WebStoreProject.Services
         }
         public List<Product> GetCartProducts(List<long> productids)
         {
-            List<Product> products = new List<Product>();
-            foreach (var prodID in productids)
+            var products = new List<Product>();
+            foreach (var prodId in productids)
             {
-                products.Add(_context.Products.FirstOrDefault(x => x.ProductId == prodID));
+                products.Add(_context.Products.FirstOrDefault(x => x.ProductId == prodId));
             }
             var a = CheckProductsOverTimeOflist(products);
             products = a;
@@ -77,7 +76,7 @@ namespace WebStoreProject.Services
         {    
             foreach (var item in userProducts)
             {
-                if (item.Status != StatusState.In_Cart)
+                if (item.Status != StatusState.InCart)
                     return false;
             }
             return true;
@@ -88,23 +87,23 @@ namespace WebStoreProject.Services
             _context.Products.Add(product);
             _context.SaveChanges();
         }
-        public decimal TotalCardWorth(string ShoppingCart)
+        public decimal TotalCardWorth(string shoppingCart)
         {
-            ShoppingCart Cart = JsonConvert.DeserializeObject<ShoppingCart>(ShoppingCart);
-            var list = GetCartProducts(Cart.ProductIDs);
+            var cart = JsonConvert.DeserializeObject<ShoppingCart>(shoppingCart);
+            var list = GetCartProducts(cart.ProductIDs);
             decimal totalAmount = 0;
             list.ForEach(x => totalAmount += x.Price);
             return totalAmount;
         }
 
-        public decimal TotalCardWorthForMembers(string ShoppingCart)
+        public decimal TotalCardWorthForMembers(string shoppingCart)
         {
-            ShoppingCart Cart = JsonConvert.DeserializeObject<ShoppingCart>(ShoppingCart);
-            var list = GetCartProducts(Cart.ProductIDs);
+            var cart = JsonConvert.DeserializeObject<ShoppingCart>(shoppingCart);
+            var list = GetCartProducts(cart.ProductIDs);
             decimal totalAmount = 0;
             foreach (var item in list)
             {
-                double price = Convert.ToDouble(item.Price) * 0.9;
+                var price = Convert.ToDouble(item.Price) * 0.9;
                 totalAmount += decimal.Parse(price.ToString());
             }
             return totalAmount;
@@ -119,10 +118,10 @@ namespace WebStoreProject.Services
             return _context.SaveChanges();
         }
 
-        public void BuyProducts(string ShoppingCart)
+        public void BuyProducts(string shoppingCart)
         {
-            ShoppingCart Cart = JsonConvert.DeserializeObject<ShoppingCart>(ShoppingCart);
-            var list = GetCartProducts(Cart.ProductIDs);
+            var cart = JsonConvert.DeserializeObject<ShoppingCart>(shoppingCart);
+            var list = GetCartProducts(cart.ProductIDs);
             var wrongItemList = CheckWrongList(list);
             if (wrongItemList.Count != 0)
             {
@@ -134,16 +133,16 @@ namespace WebStoreProject.Services
                 EmailForList(list);
                 list.ForEach(x => Purchase(x));
                 SaveProducts();
-                _HttpContextAccessor.HttpContext.Response.Cookies.Delete("Cart");
+                _httpContextAccessor.HttpContext.Response.Cookies.Delete("Cart");
             }
         }
 
         private void EmailForList(List<Product> list)
         {
-            string user = _readFromBrowser.ReadCookie("User");
+            var user = _readFromBrowser.ReadCookie("User");
             if (user == null) return;
-            User thisUser = JsonConvert.DeserializeObject<User>(user);
-            string message = "";
+            var thisUser = JsonConvert.DeserializeObject<User>(user);
+            var message = "";
             foreach (var prod in list)
             {
                 message += $"<h4>Product : {prod.Title} with the price of : {(double)prod.Price * 0.9} was purchased</h4>"; 
@@ -154,13 +153,13 @@ namespace WebStoreProject.Services
         private void Purchase(Product x)
         {
             x.Status = StatusState.Purchased;
-            string userMan = _HttpContextAccessor.HttpContext.Session.GetString("User");
+            var userMan = _httpContextAccessor.HttpContext.Session.GetString("User");
             
             if (userMan == null)
                 x.OwnerId = 1;
             else
             {
-                User user = JsonConvert.DeserializeObject<User>(userMan);
+                var user = JsonConvert.DeserializeObject<User>(userMan);
                 x.OwnerId = user.UserId;
             }
            
@@ -168,7 +167,7 @@ namespace WebStoreProject.Services
 
         private List<Product> CheckWrongList(List<Product> list)
         {
-            return list.Where(x => x.Status != StatusState.In_Cart).ToList();
+            return list.Where(x => x.Status != StatusState.InCart).ToList();
         }
 
         public void RemoveProduct(long id)

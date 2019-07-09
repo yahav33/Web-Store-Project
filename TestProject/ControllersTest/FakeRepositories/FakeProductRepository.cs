@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using WebStoreProject.Models;
 using WebStoreProject.Services;
 
 namespace TestProject.FakeRepositories
 {
-    class FakeProductRepository : IRepositoryProducts
+    internal class FakeProductRepository : IRepositoryProducts
     {
         public static List<Product> Products = new List<Product>()
         {
@@ -23,7 +22,7 @@ namespace TestProject.FakeRepositories
             Products.Add(product);
         }
 
-        void IRepositoryProducts.BuyProducts(string ShoppingCart)
+        void IRepositoryProducts.BuyProducts(string shoppingCart)
         {
             throw new NotImplementedException();
         }
@@ -35,8 +34,8 @@ namespace TestProject.FakeRepositories
 
         List<Product> IRepositoryProducts.GetCartProducts(List<long> productids)
         {
-            List<Product> tempProducts = new List<Product>();
-            for (int i = 0; i < productids.Count; i++)
+            var tempProducts = new List<Product>();
+            for (var i = 0; i < productids.Count; i++)
             {
                 var product = Products.Find(x => x.ProductId == productids[i]);
                 if (product != null) tempProducts.Add(product);
@@ -52,8 +51,8 @@ namespace TestProject.FakeRepositories
 
         List<Product> IRepositoryProducts.GetProductsOfUser(long userId)
         {
-            List<Product> tempProducts = new List<Product>();
-            for (int i = 0; i < Products.Count; i++)
+            var tempProducts = new List<Product>();
+            for (var i = 0; i < Products.Count; i++)
             {
                 if (Products[i].UserId == userId) tempProducts.Add(Products[i]);
             }
@@ -77,12 +76,12 @@ namespace TestProject.FakeRepositories
             return Products.Where(x => x.Title.Contains(searchKey)).ToList();
         }
 
-        decimal IRepositoryProducts.TotalCardWorth(string ShoppingCart)
+        decimal IRepositoryProducts.TotalCardWorth(string shoppingCart)
         {
             throw new NotImplementedException();
         }
 
-        decimal IRepositoryProducts.TotalCardWorthForMembers(string ShoppingCart)
+        decimal IRepositoryProducts.TotalCardWorthForMembers(string shoppingCart)
         {
             throw new NotImplementedException();
         }

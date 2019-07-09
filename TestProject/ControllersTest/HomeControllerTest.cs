@@ -1,5 +1,4 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
 using TestProject.FakeRepositories;
 using WebStoreProject.Models;
@@ -22,11 +21,11 @@ namespace TestProject
             IReadFromBrowser fakeReadCookie = new FakeReadCookie();
             IWriteToBrowser fakeWriteCookie = new FakeWriteCookie();
 
-            HomeController homeController = new HomeController(fakeProductRepository, fakeReadCookie, fakeWriteCookie);
+            var homeController = new HomeController(fakeProductRepository, fakeReadCookie, fakeWriteCookie);
 
             // Act
-            ViewResult viewResult = homeController.Index("name") as ViewResult;
-            List<Product> products = viewResult.Model as List<Product>;
+            var viewResult = homeController.Index("name") as ViewResult;
+            var products = viewResult.Model as List<Product>;
 
             // Should Be
             products.Count.Should().Be(4);
@@ -40,11 +39,11 @@ namespace TestProject
             IReadFromBrowser fakeReadCookie = new FakeReadCookie();
             IWriteToBrowser fakeWriteCookie = new FakeWriteCookie();
 
-            HomeController homeController = new HomeController(fakeProductRepository, fakeReadCookie, fakeWriteCookie);
+            var homeController = new HomeController(fakeProductRepository, fakeReadCookie, fakeWriteCookie);
 
             // Act
-            ViewResult viewResult = homeController.Search("T") as ViewResult;
-            List<Product> products = viewResult.Model as List<Product>;
+            var viewResult = homeController.Search("T") as ViewResult;
+            var products = viewResult.Model as List<Product>;
 
             // Should Be
             products.Count.Should().Be(2);
