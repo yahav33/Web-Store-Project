@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,11 +10,11 @@ namespace WebStoreProject.Controllers
 {
     public class ProductController : Controller
     {
-        IRepositoryProducts _repositoryProducts;
-        IRepositoryUser _repositoryUser;
-        private IReadFromBrowser _read;
-        private ICheckUserExist _check;
-        private ILogger _logger;
+        private readonly IRepositoryProducts _repositoryProducts;
+        private readonly IRepositoryUser _repositoryUser;
+        private readonly IReadFromBrowser _read;
+        private readonly ICheckUserExist _check;
+        private readonly ILogger _logger;
 
         public ProductController(IRepositoryProducts repositoryProducts, 
             IRepositoryUser user,IReadFromBrowser read,
@@ -32,11 +29,11 @@ namespace WebStoreProject.Controllers
 
         public IActionResult Index()
         {
-            string User = _read.ReadSession("User");
-            if (User != null)
-            {
+            var user = _read.ReadSession("User");
+
+            if (user != null)
                 return View();
-            }
+
             return RedirectToAction("Index", "Login");
         }
 
@@ -63,7 +60,7 @@ namespace WebStoreProject.Controllers
         public IActionResult MyProducts()
         {
             if (_check.CheckUserLogin() == false) return RedirectToAction("Index", "Login");
-            User user = JsonConvert.DeserializeObject<User>(_read.ReadCookie("User"));
+            var user = JsonConvert.DeserializeObject<User>(_read.ReadCookie("User"));
             return View(_repositoryProducts.GetProductsOfUser(user.UserId));
         }
 
@@ -97,10 +94,10 @@ namespace WebStoreProject.Controllers
                 }
             }
 
-            string User = _read.ReadSession("User");
-            if (User != null)
+            var user = _read.ReadSession("User");
+            if (user != null)
             {
-                User userP = JsonConvert.DeserializeObject<User>(User);
+                var userP = JsonConvert.DeserializeObject<User>(user);
                 product.UserId = userP.UserId;
             }
             _repositoryProducts.AddProduct(product);

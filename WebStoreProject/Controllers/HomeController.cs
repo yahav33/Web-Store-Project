@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using WebStoreProject.Models;
@@ -12,66 +9,118 @@ namespace WebStoreProject.Controllers
 {
     public class HomeController : Controller
     {
-        IRepositoryProducts _repositoryProducts;
-        IReadFromBrowser _read;
-        IWriteToBrowser _write;
-       
+        private readonly IRepositoryProducts _repositoryProducts;
+        private readonly IReadFromBrowser _read;
+        private readonly IWriteToBrowser _write;
+
 
         public HomeController(IRepositoryProducts repositoryProducts, IReadFromBrowser read, IWriteToBrowser write)
         {
             _repositoryProducts = repositoryProducts;
             _read = read;
             _write = write;
-          
+
         }
-        
+
         [HttpPost]
-        public IActionResult Search(string searchinput)
+        public IActionResult Search(string searchInput)
         {
             //var v = HttpContext.Request.Form["searchinput"];
-            return View("Index",_repositoryProducts.Search(searchinput));
+            return View("Index", _repositoryProducts.Search(searchInput));
 
         }
-        public IActionResult Index(string sortOrder)     
+        public IActionResult Index(string sortOrder)
         {
+            //Option 1:
+            //string user = _read.ReadCookie("User");
+            //if (user != null)
+            //{
+            //    //if user exist
+            //    _write.WriteToSession("User", user);
+            //    //TODO: Did you mean to name the argument below currentUser or correctUser? Either way, currectUser is a mistake.
+            //    var currectUser = JsonConvert.DeserializeObject<User>(user);
+            //    ViewData["Name"] = currectUser.FirstName;
+            //}
 
-            string user = _read.ReadCookie("User");
-            if (user != null)
-            {
-                //if user exist
+            //else
+            //{
+            //    var userPp = _read.ReadSession("User");
+            //    if (userPp != null)
+            //    {
+            //        //TODO: Did you mean to name the argument below currentUser or correctUser? Either way, currectUser is a mistake.
+            //        var currectUser = JsonConvert.DeserializeObject<User>(userPp);
+            //        ViewData["Name"] = currectUser.FirstName;
+            //    }
+            //}
+
+            //Option 2:
+            //ViewData["Name"] = GetUsersFirstName();
+
+            //Option 3:
+            if(TryGetUser(out var currentUser))
+                ViewData["Name"] = currentUser.FirstName;
+
+            var products = GetFilteredProducts(sortOrder);
+            return View(products);
+        }
+
+        private string GetUsersFirstName()
+        {
+            //Option 2:
+
+            //var user = _read.ReadCookie("User");
+
+            //if (!string.IsNullOrWhiteSpace(user))
+            //    _write.WriteToSession("User", user);
+            //else
+            //    user = _read.ReadSession("User");
+
+            //var currectUser = !string.IsNullOrWhiteSpace(user)
+            //    ? JsonConvert.DeserializeObject<User>(user)
+            //    : null;
+
+            //return currectUser?.FirstName;
+
+            // Option 3:
+            return TryGetUser(out var currentUser) ? currentUser.FirstName : null;
+        }
+
+        private bool TryGetUser(out User currentUser)
+        {
+            var user = _read.ReadCookie("User");
+
+            if (!string.IsNullOrWhiteSpace(user))
                 _write.WriteToSession("User", user);
-                User CurrectUser = JsonConvert.DeserializeObject<User>(user);
-                ViewData["Name"] = CurrectUser.FirstName;
-            }
-
             else
-            {
-                string UserPP = _read.ReadSession("User");
-                if (UserPP != null)
-                {
-                    User CurrectUser = JsonConvert.DeserializeObject<User>(UserPP);
-                    ViewData["Name"] = CurrectUser.FirstName;
+                user = _read.ReadSession("User");
 
-                }
-            }
+            currentUser = !string.IsNullOrWhiteSpace(user)
+                ? JsonConvert.DeserializeObject<User>(user)
+                : null;
 
-            var prods = _repositoryProducts.GetAllProducts();
+            return currentUser != null;
+        }
+
+        private List<Product> GetFilteredProducts(string sortOrder)
+        {
+            var products = _repositoryProducts.GetAllProducts();
             switch (sortOrder)
             {
                 case "name":
-                    prods = prods.OrderByDescending(p => p.Title).ToList();
+                    products = products.OrderByDescending(p => p.Title).ToList();
                     break;
                 case "date":
-                    prods = prods.OrderBy(p => p.Date).ToList();
+                    products = products.OrderBy(p => p.Date).ToList();
                     break;
                 case "price":
-                    prods = prods.OrderBy(p => p.Price).ToList();
+                    products = products.OrderBy(p => p.Price).ToList();
                     break;
                 default:
-                    prods = prods.OrderBy(p => p.Title).ToList();
+                    products = products.OrderBy(p => p.Title).ToList();
                     break;
             }
-            return View(prods);
+
+            return products;
         }
 
 
@@ -80,7 +129,7 @@ namespace WebStoreProject.Controllers
             return View();
         }
 
-        public bool UserLogin()
+        public bool IsUserLoggedIn()
         {
             //can use from services
             return (_read.ReadSession("User") != null);
