@@ -1,13 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
-using System.Text;
+using FluentAssertions;
 using WebStoreProject.Controllers;
 using WebStoreProject.Services;
 using TestProject.FakeRepositories;
 using Microsoft.AspNetCore.Mvc;
 using WebStoreProject.Models;
-using FluentAssertions;
 
 namespace TestProject
 {
@@ -25,19 +23,21 @@ namespace TestProject
             IWriteToBrowser fakeWriteCookie = new FakeWriteCookie();
             IEmptyCart fakeEmptyCart = new FakeEmptyCart();
             ILogger fakeLogger = new FakeLogger();
-            Login login1 = new Login() { Username="yahaTv", Email="ani@yahho.com", Password="43232" }; 
-            LoginController loginController = new LoginController(fakeEmptyCart, fakeRepositoryUser,
+            var login1 = new Login() { Username="yahaTv", Email="ani@yahho.com", Password="43232" }; 
+            var loginController = new LoginController(fakeEmptyCart, fakeRepositoryUser,
                 fakeReadCookie, fakeWriteCookie, fakeEmailManger, fakeLogger);
 
             // Act 
-            ViewResult viewResult = loginController.Login(login1) as ViewResult;
-            var rez = viewResult.Model;
+            var redirectToActionResult = loginController.Login(login1) as RedirectToActionResult;
 
-            rez.Equals(new List<Product>());
+            // Example... Not sure it should be this way here.
+            redirectToActionResult.Should().NotBeNull();
+            redirectToActionResult.ControllerName.Should().Be("Login");
+            redirectToActionResult.ActionName.Should().Be("index");
         }
 
         [TestMethod]
-        public void LoginUserSuccsess()
+        public void LoginUserSuccess()
         {
             // Arrange
             IRepositoryUser fakeRepositoryUser = new FakeUserRepository();
@@ -46,12 +46,12 @@ namespace TestProject
             IWriteToBrowser fakeWriteCookie = new FakeWriteCookie();
             IEmptyCart fakeEmptyCart = new FakeEmptyCart();
             ILogger fakeLogger = new FakeLogger();
-            Login login1 = new Login() { Username = "yahav", Email = "ani@yahho.com", Password = "43232" };
-            LoginController loginController = new LoginController(fakeEmptyCart, fakeRepositoryUser,
+            var login1 = new Login() { Username = "yahav", Email = "ani@yahho.com", Password = "43232" };
+            var loginController = new LoginController(fakeEmptyCart, fakeRepositoryUser,
                 fakeReadCookie, fakeWriteCookie, fakeEmailManger, fakeLogger);
 
             // Act 
-            ViewResult viewResult = loginController.Login(login1) as ViewResult;
+            var viewResult = loginController.Login(login1) as ViewResult;
             var rez = viewResult.Model;
 
             rez.Equals(new Login());
