@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using WebStoreProject.Models;
 using WebStoreProject.Services;
 
@@ -10,10 +6,10 @@ namespace WebStoreProject.Controllers
 {
     public class AdminController : Controller
     {
-        IRepositoryUser _repositoryUser;
-        ICheckUserExist _check;
-        ILogger _logger;
-        IReadFromBrowser _read;
+        private readonly IRepositoryUser _repositoryUser;
+        private readonly ICheckUserExist _check;
+        private readonly ILogger _logger;
+        private readonly IReadFromBrowser _read;
 
         public AdminController(IRepositoryUser repositoryUser,
             ICheckUserExist exist, ILogger logger, IReadFromBrowser read)

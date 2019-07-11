@@ -1,15 +1,12 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using WebStoreProject.Models;
 
 namespace WebStoreProject.Services
 {
     public class CartManager : ICartManager
     {
-        private IReadFromBrowser _read;
+        private readonly IReadFromBrowser _read;
 
         public CartManager(IReadFromBrowser readFrom)
         {

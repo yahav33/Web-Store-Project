@@ -1,16 +1,14 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using WebStoreProject.Models;
 
 namespace WebStoreProject.Services
 {
     public class EmptyCart : IEmptyCart
     {
-        ICartManager _cartManager;
-        IRepositoryProducts _repositoryProducts;
+        private readonly ICartManager _cartManager;
+        private readonly IRepositoryProducts _repositoryProducts;
 
         public EmptyCart(ICartManager cartManager,IRepositoryProducts repositoryProducts)
         {

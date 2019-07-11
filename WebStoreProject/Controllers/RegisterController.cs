@@ -13,12 +13,12 @@ namespace WebStoreProject.Controllers
 {
     public class RegisterController : Controller
     {
-        IRepositoryUser _irepositoryUser;
-        ICheckTime _checktime;
-        IReadFromBrowser _read;
-        IWriteToBrowser _write;
-        IEmailManger _send;
-        ILogger _logger;
+        private readonly IRepositoryUser _irepositoryUser;
+        private readonly ICheckTime _checktime;
+        private readonly IReadFromBrowser _read;
+        private readonly IWriteToBrowser _write;
+        private readonly IEmailManger _send;
+        private readonly ILogger _logger;
 
         public RegisterController(IRepositoryUser irepositoryUser,ICheckTime checktime
             , IReadFromBrowser read, IWriteToBrowser write,

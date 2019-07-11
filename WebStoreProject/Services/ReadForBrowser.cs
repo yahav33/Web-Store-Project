@@ -1,14 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace WebStoreProject.Services
 {
     public class ReadForBrowser : IReadFromBrowser
     {
-        private IHttpContextAccessor _read;
+        private readonly IHttpContextAccessor _read;
 
         public ReadForBrowser(IHttpContextAccessor HttpContextAccessor)
         {

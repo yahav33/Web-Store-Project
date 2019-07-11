@@ -1,11 +1,9 @@
-﻿//using Castle.Core.Configuration;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using WebStoreProject.Data;
 using WebStoreProject.Models;
 
@@ -13,11 +11,12 @@ namespace WebStoreProject.Services
 {
     public class RepositoryProducts : IRepositoryProducts
     {
-        StoreContext _context;
-        IConfiguration _configuration;
-        IHttpContextAccessor _HttpContextAccessor;
-        IEmailManger _emailManger;
-        IReadFromBrowser _readFromBrowser;
+        private readonly StoreContext _context;
+        private readonly IConfiguration _configuration;
+        private readonly IHttpContextAccessor _HttpContextAccessor;
+        private readonly IEmailManger _emailManger;
+        private readonly IReadFromBrowser _readFromBrowser;
+
         public RepositoryProducts(StoreContext context,IReadFromBrowser readFromBrowser,IEmailManger emailManger,IConfiguration configuration, IHttpContextAccessor HttpContextAccessor)
         {
             _context = context;

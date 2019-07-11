@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,11 +10,11 @@ namespace WebStoreProject.Controllers
 {
     public class ProductController : Controller
     {
-        IRepositoryProducts _repositoryProducts;
-        IRepositoryUser _repositoryUser;
-        private IReadFromBrowser _read;
-        private ICheckUserExist _check;
-        private ILogger _logger;
+        private readonly IRepositoryProducts _repositoryProducts;
+        private readonly IRepositoryUser _repositoryUser;
+        private readonly IReadFromBrowser _read;
+        private readonly ICheckUserExist _check;
+        private readonly ILogger _logger;
 
         public ProductController(IRepositoryProducts repositoryProducts, 
             IRepositoryUser user,IReadFromBrowser read,

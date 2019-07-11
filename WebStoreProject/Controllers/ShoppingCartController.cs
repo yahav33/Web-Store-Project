@@ -12,14 +12,12 @@ namespace WebStoreProject.Controllers
 {
     public class ShoppingCartController : Controller
     {
-
-       
-        ICartManager _cartManager;
-        IRepositoryProducts _repositoryProducts;
-        IReadFromBrowser _read;
-        IWriteToBrowser _write;
-        ICheckUserExist _check;
-        ILogger _logger;
+        private readonly ICartManager _cartManager;
+        private readonly IRepositoryProducts _repositoryProducts;
+        private readonly IReadFromBrowser _read;
+        private readonly IWriteToBrowser _write;
+        private readonly ICheckUserExist _check;
+        private readonly ILogger _logger;
 
         public ShoppingCartController(ICartManager cartManager,
             IRepositoryProducts repositoryProducts, IReadFromBrowser read,

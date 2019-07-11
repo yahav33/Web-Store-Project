@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using WebStoreProject.Data;
 using WebStoreProject.Models;
 
@@ -10,9 +8,9 @@ namespace WebStoreProject.Services
 {
     public class RepositoryUser : IRepositoryUser
     {
-        StoreContext _context;
-        IWriteToBrowser _write;
-        IReadFromBrowser _read;
+        private readonly StoreContext _context;
+        private readonly IWriteToBrowser _write;
+        private readonly IReadFromBrowser _read;
 
         public RepositoryUser(StoreContext context , IWriteToBrowser write, IReadFromBrowser readFrom)
         {

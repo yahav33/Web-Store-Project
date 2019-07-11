@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using WebStoreProject.Models;
@@ -12,9 +8,9 @@ namespace WebStoreProject.Controllers
 {
     public class HomeController : Controller
     {
-        IRepositoryProducts _repositoryProducts;
-        IReadFromBrowser _read;
-        IWriteToBrowser _write;
+        private readonly IRepositoryProducts _repositoryProducts;
+        private readonly IReadFromBrowser _read;
+        private readonly IWriteToBrowser _write;
        
 
         public HomeController(IRepositoryProducts repositoryProducts, IReadFromBrowser read, IWriteToBrowser write)
@@ -79,6 +75,8 @@ namespace WebStoreProject.Controllers
         {
             return View();
         }
+
+       
 
         public bool UserLogin()
         {

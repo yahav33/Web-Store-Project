@@ -1,15 +1,11 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using WebStoreProject.Models;
 
 namespace WebStoreProject.Services
 {
     public class CouterCart : ICounterCart
     {
-        private IReadFromBrowser _read;
+        private readonly IReadFromBrowser _read;
 
         public CouterCart(IReadFromBrowser read)
         {

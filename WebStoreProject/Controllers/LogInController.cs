@@ -12,12 +12,12 @@ namespace WebStoreProject.Controllers
 {
     public class LoginController : Controller
     {
-        IRepositoryUser _irepositoryUser;
-        private IReadFromBrowser _read;
-        private IWriteToBrowser _write;
-        private IEmptyCart _emptyCart;
-        private IEmailManger _sendEmail;
-        private ILogger _logger;
+        private readonly IRepositoryUser _irepositoryUser;
+        private readonly IReadFromBrowser _read;
+        private readonly IWriteToBrowser _write;
+        private readonly IEmptyCart _emptyCart;
+        private readonly IEmailManger _sendEmail;
+        private readonly ILogger _logger;
 
         public LoginController(IEmptyCart emptyCart,IRepositoryUser irepositoryUser, 
             IReadFromBrowser read, IWriteToBrowser write, IEmailManger email,ILogger logger)
