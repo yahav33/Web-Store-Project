@@ -7,7 +7,7 @@ using WebStoreProject.Services;
 
 namespace TestProject.FakeRepositories
 {
-    class FakeProductRepository : IRepositoryProducts
+   public class FakeProductRepository : IRepositoryProducts
     {
         public static List<Product> Products = new List<Product>()
         {

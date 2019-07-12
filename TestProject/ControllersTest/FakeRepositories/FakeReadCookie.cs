@@ -7,7 +7,7 @@ using WebStoreProject.Services;
 
 namespace TestProject.FakeRepositories
 {
-    class FakeReadCookie : IReadFromBrowser
+   public class FakeReadCookie : IReadFromBrowser
     {
         User user = new User() { FirstName = "yahav", LastName = "hadad",
             Email = "yahav@gmaul.com", UserId = 1, UserName = "ani",
